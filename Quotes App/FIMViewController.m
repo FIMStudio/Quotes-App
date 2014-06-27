@@ -33,7 +33,7 @@
     if (![self hasConnectivity]) {
         [self showShare:@2];
     }
-    else {
+    else if(self.quotes == nil){
         [self getQuotes];
     }
 }

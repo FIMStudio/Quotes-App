@@ -131,7 +131,11 @@
                          [self dismissViewControllerAnimated:YES completion:nil];
                      }];
 }
-
+-(void)viewDidDisappear
+{
+    self.quote = nil;
+    self.loadFlag = nil;
+}
 -(float)getScreenWidth
 {
     return (float) [[UIScreen mainScreen] bounds].size.width;
