@@ -15,18 +15,13 @@
 {
     NSMutableArray *output = [[NSMutableArray alloc]init];
     NSString *string= [[NSString alloc]initWithFormat:urlAddress];
-    NSLog(@"%@",string);
     NSURL *url = [NSURL URLWithString:string];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
-    
     NSURLResponse *response;
     NSError *err;
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-    NSLog(@"responseData: %@", responseData);
     NSString *str = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-    NSLog(@"responseData: %@", str);
-    
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&err];//response object is your response from server as NSData
     if ([json isKindOfClass:[NSDictionary class]]) { //Added instrospection as suggested in comment.
             NSArray *yourStaffDictionaryArray = json[@"results"];

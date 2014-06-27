@@ -83,7 +83,7 @@
     while ((UIColor *)self.textLabel.backgroundColor == randomColor ) {
         randomColor = [self getRandomColor];
     }
-    self.textLabel.backgroundColor = randomColor;
+    self.bgLabel.backgroundColor = randomColor;
     [UIView animateWithDuration:1.0
                      animations:^{
                          self.textLabel.alpha = 1.0;
@@ -105,27 +105,24 @@
     self.bgLabel = [[UILabel alloc ] initWithFrame:CGRectMake(0, [self getScreenHeight]/2, [self getScreenWidth], 43.0) ];
     self.textLabel = [[UILabel alloc ] initWithFrame:CGRectMake(0, [self getScreenHeight]/2, [self getScreenWidth], 43.0) ];
     self.authorLabel = [[UILabel alloc ] initWithFrame:CGRectMake(0, [self getScreenHeight]/2, [self getScreenWidth], 43.0) ];
-    self.bgLabel.textAlignment = UITextAlignmentCenter;
     self.textLabel.textAlignment = UITextAlignmentCenter;
     self.authorLabel.textAlignment = UITextAlignmentRight;
     self.textLabel.numberOfLines = @4;
-    self.bgLabel.textColor = [UIColor whiteColor];
     self.textLabel.textColor = [UIColor whiteColor];
     self.authorLabel.textColor = [UIColor whiteColor];
-    self.bgLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:(18.0)];
     self.textLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:(18.0)];
-    self.authorLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:(18.0)];
+    self.authorLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:(15.0)];
     [self.view addSubview:self.bgLabel];
     [self.view addSubview:self.textLabel];
     [self.view addSubview:self.authorLabel];
     if ((int) [[UIScreen mainScreen] bounds].size.height == 568) {
         self.bgLabel.frame = CGRectMake(0, 175, 320, 190);
-        self.textLabel.frame = self.bgLabel.frame;
+        self.textLabel.frame = CGRectMake(5, 175, 310, 190);
         self.authorLabel.frame = CGRectMake(116, 367, 193, 26);
     }
     else {
         self.bgLabel.frame = CGRectMake(0, 145, 320, 190);
-        self.textLabel.frame = self.bgLabel.frame;
+        self.textLabel.frame = CGRectMake(5, 145, 310, 190);
         self.authorLabel.frame = CGRectMake(116, 335, 193, 26);
     }
 
