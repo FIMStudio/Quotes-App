@@ -40,6 +40,20 @@
     else if(self.quotes == nil){
         [self getQuotes];
     }
+    
+    //iPhone screen size check
+    if ((int) [[UIScreen mainScreen] bounds].size.height == 568) {
+        self.bgLabel.frame = CGRectMake(0, 175, 320, 190);
+        self.textLabel.frame = self.bgLabel.frame;
+        self.authorLabel.frame = CGRectMake(116, 367, 193, 26);
+    }
+    else {
+        self.bgLabel.frame = CGRectMake(0, 145, 320, 190);
+        self.textLabel.frame = self.bgLabel.frame;
+        self.authorLabel.frame = CGRectMake(116, 335, 193, 26);
+    }
+
+    
 }
 -(void)getQuotes
 {
