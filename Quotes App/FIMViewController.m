@@ -15,6 +15,10 @@
 #import <netinet/in.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <Social/Social.h>
+ #include <arpa/inet.h> 
+#include <net/if.h> 
+#include <ifaddrs.h> 
+#include <net/if_dl.h>
 @interface FIMViewController ()
 
 @end
@@ -39,7 +43,7 @@
 }
 -(void)getQuotes
 {
-    
+    _viewedQuotes = 0;
     NSString *serverURL = @"http://egorikem.byethost7.com/server/getquote.php?q=1";
     if ([self hasConnectivity]) {
         self.controller = [[FIMMainController alloc]init];
@@ -107,7 +111,18 @@
 //                                              cancelButtonTitle:@"OK"
 //                                              otherButtonTitles:nil];
 //        [alert show];
-          [self upadateQuote];
+        if(_viewedQuotes < 10)
+        {
+           _viewedQuotes+=1;
+            NSLog(@"%d", _viewedQuotes);
+           [self upadateQuote];
+        }
+        else {
+            _viewedQuotes = 0;
+            [self getQuotes];
+            _viewedQuotes+=1;
+            [self upadateQuote];
+        }
     }
     
     if (swipe.direction == UISwipeGestureRecognizerDirectionDown) {

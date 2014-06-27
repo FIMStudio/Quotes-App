@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "FIMMainController.h"
 @interface FIMViewController : UIViewController
+{
+    int _viewedQuotes;
+}
 @property (strong, nonatomic) IBOutlet UILabel *authorLabel;
 @property (strong, nonatomic) IBOutlet UILabel *textLabel;
 @property (strong, nonatomic) IBOutlet UILabel *bgLabel;
