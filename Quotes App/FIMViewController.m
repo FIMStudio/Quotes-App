@@ -48,11 +48,13 @@
 -(void)getQuotes
 {
     _viewedQuotes = 0;
+    [self showLoading];
     NSString *serverURL = @"http://egorikem.byethost7.com/server/getquote.php?q=1";
     if ([self hasConnectivity]) {
         self.controller = [[FIMMainController alloc]init];
         dispatch_async(dispatch_get_main_queue(), ^{
             self.quotes = [self.controller getQuotes:serverURL:@8];
+            [self hideLoading];
             [self upadateQuote];
 
         });
@@ -64,6 +66,19 @@
 
 #pragma -- Main init
     
+}
+-(void)showLoading
+{
+    UIActivityIndicatorView  *av = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    av.frame=CGRectMake([self getScreenWidth]/2-25, [self getScreenHeight]/2-25, 50, 50);
+    av.tag  = 1;
+    [self.view addSubview:av];
+    [av startAnimating];
+}
+-(void)hideLoading
+{
+    UIActivityIndicatorView *tmpimg = (UIActivityIndicatorView *)[self.view viewWithTag:1];
+    [tmpimg removeFromSuperview];
 }
 -(FIMQuote *)getRandomQuote
 {
@@ -149,13 +164,8 @@
 #pragma mark - Work with swipe
 - (void)handleSwipe:(UISwipeGestureRecognizer *)swipe {
     
-    if (swipe.direction == UISwipeGestureRecognizerDirectionLeft) {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Swipe"
-//                                                        message:@"Swiped left"
-//                                                       delegate:self
-//                                              cancelButtonTitle:@"OK"
-//                                              otherButtonTitles:nil];
-//        [alert show];
+    if (swipe.direction == UISwipeGestureRecognizerDirectionLeft)
+    {
         if(_viewedQuotes < 10)
         {
            _viewedQuotes+=1;
@@ -163,10 +173,16 @@
            [self upadateQuote];
         }
         else {
-            _viewedQuotes = 0;
-            [self getQuotes];
-            _viewedQuotes+=1;
-            [self upadateQuote];
+            if([self hasConnectivity])
+            {
+                _viewedQuotes = 0;
+                [self getQuotes];
+                _viewedQuotes+=1;
+                [self upadateQuote];
+            }
+            else {
+                [self showShare:@2];
+            }
         }
     }
     

@@ -56,11 +56,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Quotes App/FIMViewController.m"
-            timestampString = "425562927.223251"
+            timestampString = "425564751.177663"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "-upadateQuote"
             landmarkType = "5">
          </BreakpointContent>
