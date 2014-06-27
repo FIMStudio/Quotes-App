@@ -38,21 +38,11 @@
         [self showShare:@2];
     }
     else if(self.quotes == nil){
+        [self initUI];
         [self getQuotes];
     }
     
-    //iPhone screen size check
-    if ((int) [[UIScreen mainScreen] bounds].size.height == 568) {
-        self.bgLabel.frame = CGRectMake(0, 175, 320, 190);
-        self.textLabel.frame = self.bgLabel.frame;
-        self.authorLabel.frame = CGRectMake(116, 367, 193, 26);
-    }
-    else {
-        self.bgLabel.frame = CGRectMake(0, 145, 320, 190);
-        self.textLabel.frame = self.bgLabel.frame;
-        self.authorLabel.frame = CGRectMake(116, 335, 193, 26);
-    }
-
+    
     
 }
 -(void)getQuotes
@@ -61,8 +51,12 @@
     NSString *serverURL = @"http://egorikem.byethost7.com/server/getquote.php?q=1";
     if ([self hasConnectivity]) {
         self.controller = [[FIMMainController alloc]init];
-        self.quotes = [self.controller getQuotes:serverURL:@8];
-        [self upadateQuote];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.quotes = [self.controller getQuotes:serverURL:@8];
+            [self upadateQuote];
+
+        });
+        
     }
     else {
         [self showShare:@3];
@@ -96,6 +90,46 @@
                          self.authorLabel.alpha = 1.0;
                      }];
     
+}
+-(float)getScreenWidth
+{
+    return (float) [[UIScreen mainScreen] bounds].size.width;
+}
+-(float)getScreenHeight
+{
+    return (float) [[UIScreen mainScreen] bounds].size.height;
+}
+
+-(void)initUI
+{
+    self.bgLabel = [[UILabel alloc ] initWithFrame:CGRectMake(0, [self getScreenHeight]/2, [self getScreenWidth], 43.0) ];
+    self.textLabel = [[UILabel alloc ] initWithFrame:CGRectMake(0, [self getScreenHeight]/2, [self getScreenWidth], 43.0) ];
+    self.authorLabel = [[UILabel alloc ] initWithFrame:CGRectMake(0, [self getScreenHeight]/2, [self getScreenWidth], 43.0) ];
+    self.bgLabel.textAlignment = UITextAlignmentCenter;
+    self.textLabel.textAlignment = UITextAlignmentCenter;
+    self.authorLabel.textAlignment = UITextAlignmentRight;
+    self.textLabel.numberOfLines = @4;
+    self.bgLabel.textColor = [UIColor whiteColor];
+    self.textLabel.textColor = [UIColor whiteColor];
+    self.authorLabel.textColor = [UIColor whiteColor];
+    self.bgLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:(18.0)];
+    self.textLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:(18.0)];
+    self.authorLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:(18.0)];
+    [self.view addSubview:self.bgLabel];
+    [self.view addSubview:self.textLabel];
+    [self.view addSubview:self.authorLabel];
+    if ((int) [[UIScreen mainScreen] bounds].size.height == 568) {
+        self.bgLabel.frame = CGRectMake(0, 175, 320, 190);
+        self.textLabel.frame = self.bgLabel.frame;
+        self.authorLabel.frame = CGRectMake(116, 367, 193, 26);
+    }
+    else {
+        self.bgLabel.frame = CGRectMake(0, 145, 320, 190);
+        self.textLabel.frame = self.bgLabel.frame;
+        self.authorLabel.frame = CGRectMake(116, 335, 193, 26);
+    }
+
+
 }
 - (void)didReceiveMemoryWarning
 {
