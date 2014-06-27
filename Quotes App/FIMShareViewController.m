@@ -34,7 +34,7 @@
     }
     else if([self.loadFlag integerValue]  == 2)
     {
-        [self loadViewAlert:@"error" :96.0f];
+        [self loadViewAlert:@"error" : @"reload" : 96.0f : 54.0f];
         [self showAlert:@"You are not connected to the internet"];
     }
     UISwipeGestureRecognizer *swipeUp= [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
@@ -85,29 +85,37 @@
 }
 
 
--(void)loadViewAlert:(NSString *)alertImage : (float)btnSize
+-(void)loadViewAlert:(NSString *)alertImage : (NSString *)reloadImage : (float)alertBtnSize : (float)reloadBtnSize
 {
     // Init a button premitive
     self.favoritesButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.reloadButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     // Add action
     [self.favoritesButton addTarget:self
                              action:@selector(alertBtn:)
                    forControlEvents:UIControlEventTouchUpInside];
+    [self.reloadButton addTarget:self
+                             action:@selector(reloadBtn:)
+                   forControlEvents:UIControlEventTouchUpInside];
     
     // Set bg
     [self.favoritesButton setBackgroundImage:[UIImage imageNamed:alertImage] forState:UIControlStateNormal];
+    [self.reloadButton setBackgroundImage:[UIImage imageNamed:reloadImage] forState:UIControlStateNormal];
     // Align center bg
     [self.favoritesButton setContentMode:UIViewContentModeCenter];
+    [self.reloadButton setContentMode:UIViewContentModeCenter];
     // Create frame and align
-    self.favoritesButton.frame = CGRectMake(self.view.bounds.size.width/2-btnSize/2, self.view.bounds.size.height/2-btnSize/2, btnSize, btnSize);
+    self.favoritesButton.frame = CGRectMake(self.view.bounds.size.width/2-alertBtnSize/2, self.view.bounds.size.height/2-alertBtnSize/2-50.0, alertBtnSize, alertBtnSize);
+    self.reloadButton.frame = CGRectMake(self.view.bounds.size.width/2-reloadBtnSize/2, self.view.bounds.size.height/2+reloadBtnSize, reloadBtnSize, reloadBtnSize);
     // Add
     [self.view addSubview:self.favoritesButton];
+    [self.view addSubview:self.reloadButton];
     
 }
 
 -(void)showAlert:(NSString *)alertText
 {
-    UILabel *scoreLabel = [ [UILabel alloc ] initWithFrame:CGRectMake(0, [self getScreenHeight]/2 + 50.0, [self getScreenWidth], 43.0) ];
+    UILabel *scoreLabel = [ [UILabel alloc ] initWithFrame:CGRectMake(0, [self getScreenHeight]/2, [self getScreenWidth], 43.0) ];
     scoreLabel.textAlignment = UITextAlignmentCenter;
     scoreLabel.textColor = [UIColor whiteColor];
     scoreLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:(18.0)];
@@ -168,6 +176,10 @@
 //    [userDefault synchronize];
 }
 -(IBAction)alertBtn:(id)sender
+{
+    // Do some code
+}
+-(IBAction)reloadBtn:(id)sender
 {
     if([self hasConnectivity]) {
         [self close];

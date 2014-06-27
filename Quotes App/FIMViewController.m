@@ -31,7 +31,7 @@
 {
     
     if (![self hasConnectivity]) {
-        [self showShare:@3];
+        [self showShare:@2];
     }
     else {
         [self getQuotes];
