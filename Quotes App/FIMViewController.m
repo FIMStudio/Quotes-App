@@ -41,7 +41,14 @@
         [self initUI];
         [self getQuotes];
     }
-    
+   
+    // Init favoritesKey and favoritesKeyId
+    if (self.favoritesKey == nil) {
+        self.favoritesKey = @"quote";
+        _favoritesKeyId = 0;
+        
+    }
+   
     
     
 }
@@ -152,14 +159,17 @@
 {
     self.swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
     self.swipeDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+    self.swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
     
     // Setting the swipe direction.
     [self.swipeLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
     [self.swipeDown setDirection:UISwipeGestureRecognizerDirectionDown];
+    [self.swipeUp setDirection:UISwipeGestureRecognizerDirectionUp];
     
     // Adding the swipe gesture
     [self.view addGestureRecognizer:self.swipeLeft];
     [self.view addGestureRecognizer:self.swipeDown];
+    [self.view addGestureRecognizer:self.swipeUp];
 }
 #pragma mark - Work with swipe
 - (void)handleSwipe:(UISwipeGestureRecognizer *)swipe {
@@ -188,6 +198,15 @@
     
     if (swipe.direction == UISwipeGestureRecognizerDirectionDown) {
         [self showShare:@1];
+    }
+    
+    if (swipe.direction == UISwipeGestureRecognizerDirectionUp) {
+        [self addToFavorites];
+        NSLog(@"add to favorites! And ... some debug info:");
+        NSLog(@"quote: %@", self.textLabel.text);
+        NSLog(@"Favorites quote %@", self.favorites);
+        NSLog(@"favoritesKeyId %@", [self favoritesKeyGet]);
+        
     }
     
 }
@@ -224,6 +243,18 @@
     return [[FIMPresentSahreViewController alloc] init];
 }
 
+
+-(void)addToFavorites {
+    _favorites = @{[self favoritesKeyGet]:self.textLabel.text};
+    _favoritesKeyId++;
+    
+}
+
+-(NSString *)favoritesKeyGet
+{
+     return [self.favoritesKey stringByAppendingString:[NSString stringWithFormat:@"%i", _favoritesKeyId]];
+}
+                                            
 #pragma --Check internet
 -(bool)hasConnectivity
 {

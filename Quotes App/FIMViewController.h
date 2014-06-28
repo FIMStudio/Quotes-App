@@ -11,6 +11,7 @@
 @interface FIMViewController : UIViewController
 {
     int _viewedQuotes;
+    int _favoritesKeyId;
 }
 @property (strong, nonatomic) IBOutlet UILabel *authorLabel;
 @property (strong, nonatomic) IBOutlet UILabel *textLabel;
@@ -20,5 +21,8 @@
 @property(strong, nonatomic) UISwipeGestureRecognizer *swipeUp;
 @property(strong, nonatomic) FIMMainController *controller;
 @property(strong, nonatomic) NSMutableArray *quotes;
+@property(strong, nonatomic) NSMutableDictionary *favorites;
+@property(strong, nonatomic) NSString *favoritesKey;
+@property(strong, nonatomic) NSString *fullObjectPath;
 @property (nonatomic, strong) NSMutableArray *labelColors;
 @end
